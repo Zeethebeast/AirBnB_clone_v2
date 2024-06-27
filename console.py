@@ -131,25 +131,20 @@ class HBNBCommand(cmd.Cmd):
         new_instance = HBNBCommand.classes[class_name]()
     
         for pmeters in argss[1:]:
-            key_value = pmeters.split("=")
-            if len(key_value) != 2:
-                continue
-            
-            key, value = key_value
-            value = value.strip('\"').replace('_', ' ')
-
+            key, value = pmeters.split("=")
+            try:
+                value = value.strip('\"').replace('_', ' ')
+            except:
         # Try to convert the value to int or float if possible
-        try:
-            if '.' in value:
-                value = float(value)
-            else:
-                value = int(value)
-        except ValueError:
-            pass
+                try:
+                    if '.' in value:
+                        value = float(value)
+                    else:
+                        value = int(value)
+                except ValueError:
+                    pass
         
             setattr(new_instance, key, value)
-
-        storage.new(new_instance)
         storage.save()
         print(new_instance.id)
 
